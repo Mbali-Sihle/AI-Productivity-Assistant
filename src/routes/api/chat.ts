@@ -59,6 +59,8 @@ export const Route = createFileRoute("/api/chat")({
         const decoder = new TextDecoder();
         const reader = upstream.body.getReader();
 
+        let buffer = "";
+
         const stream = new ReadableStream<Uint8Array>({
           async pull(controller) {
             const { done, value } = await reader.read();
@@ -66,8 +68,10 @@ export const Route = createFileRoute("/api/chat")({
               controller.close();
               return;
             }
-            const chunk = decoder.decode(value, { stream: true });
-            for (const line of chunk.split("\n")) {
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split("\n");
+            buffer = lines.pop() ?? "";
+            for (const line of lines) {
               if (!line.startsWith("data:")) continue;
               const payload = line.slice(5).trim();
               if (!payload || payload === "[DONE]") continue;
