@@ -19,7 +19,6 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("No message provided.", { status: 400 });
         }
 
-        console.log("[chat] calling gateway", mode);
         const upstream = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
           method: "POST",
           headers: {
@@ -42,7 +41,6 @@ export const Route = createFileRoute("/api/chat")({
           }),
         });
 
-        console.log("[chat] upstream status", upstream.status);
         if (!upstream.ok || !upstream.body) {
           const detail = await upstream.text().catch(() => "");
           let message = "The assistant is unavailable right now. Please try again.";
