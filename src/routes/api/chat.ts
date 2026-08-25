@@ -58,43 +58,45 @@ export const Route = createFileRoute("/api/chat")({
 
         const encoder = new TextEncoder();
         const decoder = new TextDecoder();
-        const reader = upstream.body.getReader();
+        const { readable, writable } = new TransformStream<Uint8Array, Uint8Array>();
+        const writer = writable.getWriter();
 
-        let buffer = "";
-
-        const stream = new ReadableStream<Uint8Array>({
-          async pull(controller) {
-            const { done, value } = await reader.read();
-            if (done) {
-              controller.close();
-              return;
-            }
-            buffer += decoder.decode(value, { stream: true });
-            const lines = buffer.split("\n");
-            buffer = lines.pop() ?? "";
-            for (const line of lines) {
-              if (!line.startsWith("data:")) continue;
-              const payload = line.slice(5).trim();
-              if (!payload || payload === "[DONE]") continue;
-              try {
-                const evt = JSON.parse(payload);
-                if (evt.type === "response.output_text.delta" && evt.delta) {
-                  controller.enqueue(encoder.encode(evt.delta));
+        void (async () => {
+          const reader = upstream.body!.getReader();
+          let buffer = "";
+          try {
+            for (;;) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              buffer += decoder.decode(value, { stream: true });
+              const lines = buffer.split("\n");
+              buffer = lines.pop() ?? "";
+              for (const line of lines) {
+                if (!line.startsWith("data:")) continue;
+                const payload = line.slice(5).trim();
+                if (!payload || payload === "[DONE]") continue;
+                try {
+                  const evt = JSON.parse(payload);
+                  if (evt.type === "response.output_text.delta" && evt.delta) {
+                    await writer.write(encoder.encode(evt.delta as string));
+                  }
+                } catch {
+                  /* ignore partial frames */
                 }
-              } catch {
-                /* ignore partial frames */
               }
             }
-          },
-          cancel() {
-            void reader.cancel();
-          },
-        });
+          } catch (err) {
+            console.error("[chat] stream error", err);
+          } finally {
+            await writer.close().catch(() => {});
+          }
+        })();
 
-        return new Response(stream, {
+        return new Response(readable, {
           headers: {
             "Content-Type": "text/plain; charset=utf-8",
             "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",
           },
         });
       },
