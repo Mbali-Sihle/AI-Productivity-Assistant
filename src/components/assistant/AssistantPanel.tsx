@@ -125,6 +125,7 @@ export function AssistantPanel({ feature }: { feature: Feature }) {
           <p className="text-sm text-muted-foreground">{feature.tagline}</p>
         </div>
         <div className="flex items-center gap-2">
+          <TemplateLibrary onInsert={insertTemplate} />
           {feature.id === "message" && (
             <div className="flex flex-wrap gap-1">
               {TONES.map((t) => (
