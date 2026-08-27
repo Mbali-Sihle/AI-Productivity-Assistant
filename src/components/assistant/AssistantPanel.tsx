@@ -39,6 +39,16 @@ export function AssistantPanel({ feature }: { feature: Feature }) {
   const [streaming, setStreaming] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  function insertTemplate(body: string) {
+    setInput((prev) => {
+      const base = prev.trim();
+      return base ? `${base}\n\n${body}` : body;
+    });
+    setTimeout(() => inputRef.current?.focus(), 0);
+    toast.success("Template added — edit the [PLACEHOLDERS] then send.");
+  }
 
   useEffect(() => {
     setMessages([]);
