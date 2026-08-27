@@ -218,6 +218,7 @@ export function AssistantPanel({ feature }: { feature: Feature }) {
       <div className="border-t border-border bg-card/60 px-5 py-4">
         <div className="mx-auto flex max-w-3xl items-end gap-2">
           <Textarea
+            ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
