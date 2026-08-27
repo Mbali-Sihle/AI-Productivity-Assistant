@@ -115,6 +115,7 @@ export function TemplateLibrary({ onInsert }: { onInsert: (text: string) => void
   }
 
   return (
+    <>
     <Dialog
       open={open}
       onOpenChange={(o) => {
