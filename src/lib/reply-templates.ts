@@ -3,7 +3,8 @@ export type TemplateCategory =
   | "Availability"
   | "Delivery"
   | "Booking"
-  | "Complaints";
+  | "Complaints"
+  | "Hair Colours";
 
 export type ReplyTemplate = {
   id: string;
@@ -20,6 +21,7 @@ export const TEMPLATE_CATEGORIES: TemplateCategory[] = [
   "Delivery",
   "Booking",
   "Complaints",
+  "Hair Colours",
 ];
 
 export const REPLY_TEMPLATES: ReplyTemplate[] = [
