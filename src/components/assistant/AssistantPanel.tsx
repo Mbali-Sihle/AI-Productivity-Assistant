@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { TONES } from "@/lib/assistant-prompt";
+import { TemplateLibrary } from "./TemplateLibrary";
 import type { ChatMessage, Feature } from "./types";
 
 function CopyButton({ text }: { text: string }) {
