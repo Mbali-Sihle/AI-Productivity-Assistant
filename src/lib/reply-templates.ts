@@ -11,6 +11,7 @@ export type ReplyTemplate = {
   title: string;
   description: string;
   body: string;
+  custom?: boolean;
 };
 
 export const TEMPLATE_CATEGORIES: TemplateCategory[] = [
