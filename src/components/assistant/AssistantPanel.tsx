@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { TONES } from "@/lib/assistant-prompt";
+import { TemplateLibrary } from "./TemplateLibrary";
 import type { ChatMessage, Feature } from "./types";
 
 function CopyButton({ text }: { text: string }) {
@@ -38,6 +39,16 @@ export function AssistantPanel({ feature }: { feature: Feature }) {
   const [streaming, setStreaming] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  function insertTemplate(body: string) {
+    setInput((prev) => {
+      const base = prev.trim();
+      return base ? `${base}\n\n${body}` : body;
+    });
+    setTimeout(() => inputRef.current?.focus(), 0);
+    toast.success("Template added — edit the [PLACEHOLDERS] then send.");
+  }
 
   useEffect(() => {
     setMessages([]);
@@ -114,6 +125,7 @@ export function AssistantPanel({ feature }: { feature: Feature }) {
           <p className="text-sm text-muted-foreground">{feature.tagline}</p>
         </div>
         <div className="flex items-center gap-2">
+          <TemplateLibrary onInsert={insertTemplate} />
           {feature.id === "message" && (
             <div className="flex flex-wrap gap-1">
               {TONES.map((t) => (
@@ -206,6 +218,7 @@ export function AssistantPanel({ feature }: { feature: Feature }) {
       <div className="border-t border-border bg-card/60 px-5 py-4">
         <div className="mx-auto flex max-w-3xl items-end gap-2">
           <Textarea
+            ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
