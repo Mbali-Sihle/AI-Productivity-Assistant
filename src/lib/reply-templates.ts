@@ -3,7 +3,8 @@ export type TemplateCategory =
   | "Availability"
   | "Delivery"
   | "Booking"
-  | "Complaints";
+  | "Complaints"
+  | "Hair Colours";
 
 export type ReplyTemplate = {
   id: string;
@@ -20,6 +21,7 @@ export const TEMPLATE_CATEGORIES: TemplateCategory[] = [
   "Delivery",
   "Booking",
   "Complaints",
+  "Hair Colours",
 ];
 
 export const REPLY_TEMPLATES: ReplyTemplate[] = [
@@ -237,5 +239,68 @@ Our policy: [RETURN POLICY, e.g. unopened items within X days].
 Next step: please send a photo of the item and your order number [ORDER NUMBER].
 
 Once received I'll arrange [REFUND / EXCHANGE / STORE CREDIT] within [TIMEFRAME]. 🙏`,
+  },
+  {
+    id: "colour-brown",
+    category: "Hair Colours",
+    title: "Rich brown colour consultation",
+    description: "Reply for clients wanting chocolate, chestnut or warm brown tones.",
+    body: `Hi [CUSTOMER NAME] 👋
+
+Thanks for your interest in our brown colour services at [BUSINESS NAME]!
+
+We can create anything from a soft chocolate brown to a warm chestnut or deep espresso tone. This service starts at R[PRICE] and includes the colour treatment, wash, condition and a glossy finish.
+
+Please note: a strand test may be needed if your hair has been previously coloured. Do you have a specific shade in mind? Send me a picture and I'll guide you. 🤎`,
+  },
+  {
+    id: "colour-black",
+    category: "Hair Colours",
+    title: "Jet black / natural black colour",
+    description: "Reply for clients wanting sleek black or blue-black colour.",
+    body: `Hi [CUSTOMER NAME] 👋
+
+Yes, we do jet black and natural black colour treatments! This service starts at R[PRICE] and is perfect if you want a rich, sleek look that lasts.
+
+For the best result, we recommend coming with clean, product-free hair. The treatment takes about [DURATION].
+
+Would you like to book a strand test or go straight to an appointment? 🖤`,
+  },
+  {
+    id: "colour-gold",
+    category: "Hair Colours",
+    title: "Gold / honey blonde highlights",
+    description: "Reply for clients wanting warm gold, honey or caramel tones.",
+    body: `Hi [CUSTOMER NAME] ✨
+
+Gold and honey tones are so beautiful! We can do balayage, foil highlights, or a full colour transformation starting from R[PRICE].
+
+Because lightening hair is a process, the final look depends on your current hair colour and condition. If your hair has been relaxed or coloured before, please let me know so we can plan safely.
+
+Would you like to book a consultation first? 💛`,
+  },
+  {
+    id: "colour-maintenance",
+    category: "Hair Colours",
+    title: "Colour touch-up / maintenance",
+    description: "Reply for root touch-ups or refreshing existing colour.",
+    body: `Hi [CUSTOMER NAME] 👋
+
+A colour refresh or root touch-up is a great way to keep your colour looking fresh. This starts at R[PRICE] and takes about [DURATION].
+
+For best results, please book your touch-up every [WEEKS] weeks before your roots grow too far out. Would you like me to lock in your next slot? 💇🏽‍♀️`,
+  },
+  {
+    id: "colour-correction",
+    category: "Hair Colours",
+    title: "Colour correction",
+    description: "Reply for clients needing to fix a previous colour result.",
+    body: `Hi [CUSTOMER NAME],
+
+Thank you for trusting me with your colour correction — I know it can feel stressful when the colour isn't what you wanted. 😔
+
+Colour correction is priced from R[PRICE] depending on how many sessions are needed. I'll need to see your hair in person or send me clear photos in natural light so I can assess it properly.
+
+Please avoid box dye or any at-home treatments until we meet. When works for you? 🙏`,
   },
 ];
