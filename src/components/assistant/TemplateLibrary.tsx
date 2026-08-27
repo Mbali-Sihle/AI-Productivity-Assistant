@@ -330,6 +330,7 @@ export function TemplateLibrary({ onInsert }: { onInsert: (text: string) => void
           </>
         )}
       </DialogContent>
+    </Dialog>
 
       <AlertDialog
         open={pendingDelete !== null}
